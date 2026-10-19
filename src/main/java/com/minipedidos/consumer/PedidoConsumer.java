@@ -12,17 +12,24 @@ public class PedidoConsumer {
 
     @RabbitListener(
         queues = RabbitMQConfig.COLA_PEDIDOS,
-        concurrency = "1"
+        concurrency = "2"
     )
     public void recibirPedido(Pedido pedido) {
 
         System.out.println("==============================");
+
+        // Identificar qué consumidor procesa el pedido
+        System.out.println(
+            "Consumidor: " + Thread.currentThread().getName()
+        );
+
         System.out.println("Pedido recibido desde RabbitMQ");
         System.out.println("ID: " + pedido.getPedidoId());
         System.out.println("Cliente: " + pedido.getCliente());
         System.out.println("Producto: " + pedido.getProducto());
         System.out.println("Cantidad: " + pedido.getCantidad());
         System.out.println("Estado: " + pedido.getEstado());
+
         System.out.println("Pedido procesado correctamente");
         System.out.println("==============================");
     }
